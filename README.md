@@ -1,4 +1,4 @@
-# Facebook Audience network *GODOT MODULE*
+# Facebook Audience Network *GODOT MODULE*
 
 ## Using the module
 
@@ -11,14 +11,14 @@
 in your `project.godot` add
 ```
 [android]
-modules="org/godotengine/godot/FacebookAudienceNetwork"
+modules="org/godotengine/godot/GodotFAN"
 ```
 ## API 
 ```
 var facebookInterstitialAd
 func _ready()-> void:
 	
-	facebookInterstitialAd=Engine.get_singleton("FacebookAudienceNetwork")
+	facebookInterstitialAd=Engine.get_singleton("GodotFAN")
 ```
 
 ### To show the interstitial
