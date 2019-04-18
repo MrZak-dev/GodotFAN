@@ -17,9 +17,9 @@ public class FacebookAudienceNetwork extends Godot.SingletonBase {
     //private int instanceId = 0;
     private InterstitialAd myInterstitialAd;
 
-    public void InterstitiaLoader(){
+    public void InterstitialLoader(String placementId){
         AudienceNetworkAds.initialize(this.appContext);
-        myInterstitialAd = new InterstitialAd(this.appContext,"285548149034555_285553599034010");
+        myInterstitialAd = new InterstitialAd(this.appContext,placementId);
         myInterstitialAd.loadAd();
         appActivity.runOnUiThread(new Runnable() {
             public void run() {
