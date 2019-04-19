@@ -10,7 +10,7 @@ import android.util.Log;
 
 
 
-public class FacebookAudienceNetwork extends Godot.SingletonBase {
+public class GodotFAN extends Godot.SingletonBase {
 
     protected Activity appActivity;
     protected Context appContext;
@@ -23,13 +23,13 @@ public class FacebookAudienceNetwork extends Godot.SingletonBase {
         myInterstitialAd.loadAd();
         appActivity.runOnUiThread(new Runnable() {
             public void run() {
-                
                 myInterstitialAd.setAdListener(new InterstitialAdListener() {
                     @Override
                     public void onInterstitialDisplayed(Ad ad) {
                         // Interstitial ad displayed callback
                         Log.e("FAN", "Interstitial ad displayed.");
                     }
+                    
                     @Override
                     public void onInterstitialDismissed(Ad ad) {
                         // Interstitial dismissed callback
@@ -53,7 +53,6 @@ public class FacebookAudienceNetwork extends Godot.SingletonBase {
                         // Ad clicked callback
                         Log.d("FAN", "Interstitial ad clicked!");
                     }
-        
                     @Override
                     public void onLoggingImpression(Ad ad) {
                         // Ad impression logged callback
@@ -65,8 +64,6 @@ public class FacebookAudienceNetwork extends Godot.SingletonBase {
         
     
     }
-
-    
     public int add(int a , int b) {
         // a function to bind
         return a+b;
@@ -78,12 +75,12 @@ public class FacebookAudienceNetwork extends Godot.SingletonBase {
     }*/
 
     static public Godot.SingletonBase initialize(Activity p_activity) {
-        return new FacebookAudienceNetwork(p_activity);
+        return new GodotFAN(p_activity);
     }
 
-    public FacebookAudienceNetwork(Activity p_activity) {
+    public GodotFAN(Activity p_activity) {
         //register class name and functions to bind
-        registerClass("FacebookAudienceNetwork", new String[]{"add","InterstitiaLoader"});
+        registerClass("GodotFAN", new String[]{"add","InterstitiaLoader"});
         this.appActivity = p_activity;
         this.appContext = appActivity.getApplicationContext();
         // you might want to try initializing your singleton here, but android
