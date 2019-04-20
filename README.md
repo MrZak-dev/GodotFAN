@@ -15,15 +15,22 @@ modules="org/godotengine/godot/GodotFAN"
 ```
 ## API 
 ```
-var facebookInterstitialAd
+var facebookAds
 func _ready()-> void:
 	
-	facebookInterstitialAd=Engine.get_singleton("GodotFAN")
+	facebookAds = Engine.get_singleton("GodotFAN")
+	facebookAds.FacebookAdsInit("YOUR_INTERSTITIAL_PLACEMENT_id","YOUR_REWARDED_VIDEO_PLACEMENT_id")
+
 ```
 
-### To show the interstitial
+### Calling the interstitial and rewarded video ads
 
-`facebookInterstitialAd.InterstitialLoader("your placement ID")`
+`facebookAds.showInterstitial()`
+`facebookAds.showRewardedVideo()`
 
-*more functions and callbacks will be add soon*
+### Debugging
+
+`adb -d logcat GodotFan:V FAN:V godot:V *:S`
+
+*callbacks will be add soon*
 *Tested with godot 3.1 stable*
