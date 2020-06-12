@@ -27,9 +27,9 @@ func _ready()-> void:
 
 ```gdscript
 
-facebookAds.showInterstitial() # Calls an interstitial ad
+facebookAds.showInterstitial() #Calls an interstitial ad
 
-facebookAds.showRewardedVideo()# Calls a rewarded video ad
+facebookAds.showRewardedVideo() #Calls a rewarded video ad
 
 ```
 
@@ -37,7 +37,7 @@ facebookAds.showRewardedVideo()# Calls a rewarded video ad
 
 ```gdscript
 
-##Interstitial Ad CallBacs
+#Interstitial Ad CallBacs
 
 func onInterstitialReady() -> void:
 	#Called When a interstitial Ad is loaded and Ready
