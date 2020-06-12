@@ -39,26 +39,26 @@ facebookAds.showRewardedVideo()# Calls a rewarded video ad
 
 ##Interstitial Ad CallBacs
 
-func onInterstitialReady -> void:
+func onInterstitialReady() -> void:
 	#Called When a interstitial Ad is loaded and Ready
 pass
 
 
-func onInterstitialClosed -> void:
+func onInterstitialClosed() -> void:
 	#Called When a interstitial Ad is closed
 pass
 
 ##Rewarded Video Ad CallBacs
 
-func onRewardedReady -> void:
+func onRewardedReady() -> void:
 	#Called When a Rewarded video Ad is loaded and ready
 pass
 
-func onRewardedClosed -> void:
+func onRewardedClosed() -> void:
 	#Called When a Rewarded video Ad is closed (completed or not , this only detects the close action)
 pass
 
-func onRewardedCompleted -> void:
+func onRewardedCompleted() -> void:
 	#Called When An Rewarded video Ad is completed
 
 	#Call Reward Function here

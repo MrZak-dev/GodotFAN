@@ -6,10 +6,10 @@ import com.godot.game.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
+import android.util.Log;
 
 import javax.microedition.khronos.opengles.GL10;
 import com.facebook.ads.*;
-import android.util.Log;
 
 
 
