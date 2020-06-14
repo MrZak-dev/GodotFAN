@@ -127,9 +127,9 @@ public class GodotFAN extends Godot.SingletonBase {
                       // The Rewarded Video ad was closed - this can occur during the video
                       // by closing the app, or closing the end card.
                       Log.d("FAN", "Rewarded video ad closed!");
-                      GodotLib.calldeferred(instanceId, "onRewardedClosed", new Object[]{});
                       rewardedVideoAd.destroy(); // i couldn't load another rewardedVideo without destroying the old one 
                       rewardedVideoAd.loadAd(); // load the rewarded video , so we can use it again.
+                      GodotLib.calldeferred(instanceId, "onRewardedClosed", new Object[]{});
                     }
                 });
             }

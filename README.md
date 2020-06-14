@@ -25,7 +25,7 @@ func _ready()-> void:
 
 ### Calling the interstitial and rewarded video ads
 
-```gdscript
+```python
 
 facebookAds.showInterstitial() #Calls an interstitial ad
 
@@ -35,7 +35,7 @@ facebookAds.showRewardedVideo() #Calls a rewarded video ad
 
 ## CallBacks
 
-```gdscript
+```python
 
 #Interstitial Ad CallBacs
 
