@@ -21,6 +21,9 @@ public class GodotFAN extends Godot.SingletonBase {
     private InterstitialAd interstitialAd; //interstitial ad
     private RewardedVideoAd rewardedVideoAd; // rewarded video ad 
 
+    //Ids 
+    private String rewardedVideoAdId;
+    private String interstitialAdId;
     //Ads Sinals
     private boolean interstitialAdLoadingStatus = false;
     private boolean rewardedVideoAdLoadingStatus = false;
@@ -28,15 +31,18 @@ public class GodotFAN extends Godot.SingletonBase {
     public void FacebookAdsInit(final int instanceId,final String interstitialAdId , final String rewardedVideoAdId){
 
         this.instanceId = instanceId;
+        this.interstitialAdId = interstitialAdId;
+        this.rewardedVideoAdId = rewardedVideoAdId;
         
         AudienceNetworkAds.initialize(this.appContext);// Initializing the audience network
-        interstitialAd = new InterstitialAd(this.appContext,interstitialAdId); //initialization of interstitial with placement id given from godot script
-        rewardedVideoAd = new RewardedVideoAd(this.appContext,rewardedVideoAdId); // initialization of the rewarded video ad with placement id given from godot script
-        interstitialAd.loadAd();
-        rewardedVideoAd.loadAd();
+        Log.e("FAN", "Facebook Audience Network Initialize ");
+        loadInterstitial();
+    }
 
+    public void loadInterstitial(){
+        interstitialAd = new InterstitialAd(this.appContext,interstitialAdId); //initialization of interstitial with placement id given from godot script
         appActivity.runOnUiThread(new Runnable() {
-            public void run() {
+            @Override public void run() {
 
                 // interstitial ad listener
                 interstitialAd.setAdListener(new InterstitialAdListener() {
@@ -80,8 +86,23 @@ public class GodotFAN extends Godot.SingletonBase {
                         Log.d("FAN", "Interstitial ad impression logged!");
                     }
                 }); 
+                interstitialAd.loadAd();
+                
+            }
+        });
+    }
 
-                //Rewarded video ad listener
+    // void loadIterstitial
+    public void loadRewardedVideo(){
+        appActivity.runOnUiThread(new Runnable() {
+            @Override public void run() {
+
+                if(rewardedVideoAd != null){
+                    rewardedVideoAd.destroy();
+                    rewardedVideoAd = null;
+                }
+                
+                rewardedVideoAd = new RewardedVideoAd(appContext,rewardedVideoAdId); // initialization of the rewarded video ad with placement id given from godot script
                 rewardedVideoAd.setAdListener(new RewardedVideoAdListener() {
                     @Override
                     public void onError(final Ad ad, final AdError error) {
@@ -116,25 +137,25 @@ public class GodotFAN extends Godot.SingletonBase {
                     public void onRewardedVideoCompleted() {
                       // Rewarded Video View Complete - the video has been played to the end.
                       // You can use this event to initialize your reward
-                      Log.d("FAN", "Rewarded video completed!");
-                      GodotLib.calldeferred(instanceId, "onRewardedCompleted", new Object[]{});
                       // Call method to give reward
-                      // giveReward();
+                      GodotLib.calldeferred(instanceId, "onRewardedCompleted", new Object[]{});
+                      Log.d("FAN", "Rewarded video completed!"); 
                     }
                 
                     @Override
                     public void onRewardedVideoClosed() {
                       // The Rewarded Video ad was closed - this can occur during the video
                       // by closing the app, or closing the end card.
-                      Log.d("FAN", "Rewarded video ad closed!");
-                      rewardedVideoAd.destroy(); // i couldn't load another rewardedVideo without destroying the old one 
-                      rewardedVideoAd.loadAd(); // load the rewarded video , so we can use it again.
                       GodotLib.calldeferred(instanceId, "onRewardedClosed", new Object[]{});
+                      Log.d("FAN", "Rewarded video ad closed!");
+                      
                     }
                 });
+                rewardedVideoAd.loadAd();
             }
         });
     }
+
     public void showInterstitial(){
         if(interstitialAdLoadingStatus){
             interstitialAd.show();
@@ -164,9 +185,14 @@ public class GodotFAN extends Godot.SingletonBase {
 
     public GodotFAN(final Activity p_activity) {
         //register class name and functions to bind
-        registerClass("GodotFAN", new String[]{"FacebookAdsInit","showInterstitial","showRewardedVideo"});
+        registerClass("GodotFAN", new String[]{
+            "FacebookAdsInit",
+            "showInterstitial",
+            "showRewardedVideo",
+            "loadRewardedVideo"
+        });
         this.appActivity = p_activity;
-        this.appContext = appActivity.getApplicationContext();
+        this.appContext = p_activity.getApplicationContext();
         // you might want to try initializing your singleton here, but android
         // threads are weird and this runs in another thread, so to interact with Godot you usually have to do
         
