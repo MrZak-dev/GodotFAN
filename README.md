@@ -16,7 +16,7 @@ modules="org/godotengine/godot/GodotFAN"
 or From Project Setting >> Compression > Android
 
 ## API 
-```gdscript
+```python
 var facebookAds
 func _ready()-> void:
 	facebookAds = Engine.get_singleton("GodotFAN")
@@ -29,7 +29,10 @@ func _ready()-> void:
 
 facebookAds.showInterstitial() #Calls an interstitial ad
 
-facebookAds.showRewardedVideo() #Calls a rewarded video ad
+facebookAds.loadRewardedVideo() # Loads a rewardedVideo ad
+
+facebookAds.showRewardedVideo() #Calls a rewarded video ad (remmember to call loadRewardedVideo() before showing a rewarded video)
+
 
 ```
 
@@ -41,28 +44,28 @@ facebookAds.showRewardedVideo() #Calls a rewarded video ad
 
 func onInterstitialReady() -> void:
 	#Called When a interstitial Ad is loaded and Ready
-pass
+	pass
 
 
 func onInterstitialClosed() -> void:
 	#Called When a interstitial Ad is closed
-pass
+	pass
 
 ##Rewarded Video Ad CallBacs
 
 func onRewardedReady() -> void:
 	#Called When a Rewarded video Ad is loaded and ready
-pass
+	pass
 
 func onRewardedClosed() -> void:
 	#Called When a Rewarded video Ad is closed (completed or not , this only detects the close action)
-pass
+	pass
 
 func onRewardedCompleted() -> void:
 	#Called When An Rewarded video Ad is completed
 
 	#Call Reward Function here
-pass
+	pass
 
 
 ```
