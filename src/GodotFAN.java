@@ -63,7 +63,6 @@ public class GodotFAN extends Godot.SingletonBase {
                     public void onError(final Ad ad, final AdError adError) {
                         // Ad error callback
                         Log.e("FAN", "Interstitial ad failed to load: " + adError.getErrorMessage());
-                        interstitialAd.loadAd(); // in case of errors try to load again
                     }
         
                     @Override
@@ -108,7 +107,6 @@ public class GodotFAN extends Godot.SingletonBase {
                     public void onError(final Ad ad, final AdError error) {
                       // Rewarded video ad failed to load
                       Log.e("FAN", "Rewarded video ad failed to load: " + error.getErrorMessage());
-                      rewardedVideoAd.loadAd(); // in cqse of errors try to load again
                     }
                 
                     @Override
