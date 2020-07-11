@@ -2,3 +2,9 @@ config.pyc
 .vscode/
 .vscode/*
 __pycache__
+build
+plugins
+*/build/*
+*/plugins/*
+.build_version
+*/.import/*

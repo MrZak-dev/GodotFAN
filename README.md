@@ -6,6 +6,7 @@
 
 *the new Godot plugin system doesn't require compiling the source code*
 
+![demo](/facebook-ads-example/demo.gif)
 
 ### Initialize the module
 in your `project.godot` add 
