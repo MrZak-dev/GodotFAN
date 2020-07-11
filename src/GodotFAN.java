@@ -7,6 +7,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.view.Gravity;
+import android.view.View;
 
 import javax.microedition.khronos.opengles.GL10;
 import com.facebook.ads.*;
@@ -15,29 +19,46 @@ import com.facebook.ads.*;
 
 public class GodotFAN extends Godot.SingletonBase {
 
-    protected Activity appActivity;
-    protected Context appContext;
+    private Activity appActivity = null;
+    private Context appContext = null;
     private int instanceId = 0;
     private InterstitialAd interstitialAd; //interstitial ad
     private RewardedVideoAd rewardedVideoAd; // rewarded video ad 
+    private AdView AdView; // banner Ad
+
+    private FrameLayout layout = null;
+    private FrameLayout.LayoutParams layoutParams = null;
+    private LinearLayout linearLayout = null;
+    private LinearLayout.LayoutParams linearLayoutParams = null;
 
     //Ids 
     private String rewardedVideoAdId;
     private String interstitialAdId;
+    private String bannerAdId;
+
     //Ads Sinals
     private boolean interstitialAdLoadingStatus = false;
     private boolean rewardedVideoAdLoadingStatus = false;
 
-    public void FacebookAdsInit(final int instanceId,final String interstitialAdId , final String rewardedVideoAdId){
+
+    @Override
+	public View onMainCreateView(Activity activity) {
+		layout = new FrameLayout(activity);
+		return layout;
+	}
+
+    public void FacebookAdsInit(final int instanceId,final String interstitialAdId , final String rewardedVideoAdId , final String bannerAdId){
 
         this.instanceId = instanceId;
         this.interstitialAdId = interstitialAdId;
         this.rewardedVideoAdId = rewardedVideoAdId;
+        this.bannerAdId = bannerAdId;
         
         AudienceNetworkAds.initialize(this.appContext);// Initializing the audience network
         Log.e("FAN", "Facebook Audience Network Initialize ");
         loadInterstitial();
     }
+
 
     public void loadInterstitial(){
         interstitialAd = new InterstitialAd(this.appContext,interstitialAdId); //initialization of interstitial with placement id given from godot script
@@ -91,7 +112,6 @@ public class GodotFAN extends Godot.SingletonBase {
         });
     }
 
-    // void loadIterstitial
     public void loadRewardedVideo(){
         appActivity.runOnUiThread(new Runnable() {
             @Override public void run() {
@@ -159,7 +179,7 @@ public class GodotFAN extends Godot.SingletonBase {
             interstitialAd.show();
             interstitialAdLoadingStatus = false; //reset the signal to false so the Adloaded signal from the ad listener will set it to true again when ad is loaded
         }else{
-            Log.d("GodotFan","Interstitial is not Loaded yet !");
+            Log.d("FAN","Interstitial is not Loaded yet !");
         }
     }
 
@@ -168,14 +188,91 @@ public class GodotFAN extends Godot.SingletonBase {
             rewardedVideoAd.show();
             rewardedVideoAdLoadingStatus = false; //reset the signal to false so the Adloaded signal from the ad listener will set it to true again when ad is loaded
         }else {
-            Log.d("GodotFan","RewardedVideo is not Loaded yet !");
+            Log.d("FAN","RewardedVideo is not Loaded yet !");
         }
     }
 
-    /*public void getInstanceId(int pInstanceId) {
-        // You will need to call this method from Godot and pass in the get_instance_id().
-        instanceId = pInstanceId;
-    }*/
+    public void loadBanner(final boolean isTop){
+        int adPosition= isTop ? Gravity.TOP : Gravity.BOTTOM ;
+
+        layoutParams =  new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            adPosition
+        );
+
+        linearLayout = new LinearLayout(this.appContext);
+        linearLayoutParams =  new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, 
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        AdView = new AdView(this.appContext, this.bannerAdId , AdSize.BANNER_HEIGHT_50);
+
+        appActivity.runOnUiThread(new Runnable() {
+            @Override public void run() {
+                layout.setLayoutParams(layoutParams);
+                linearLayout.setLayoutParams(linearLayoutParams);
+                linearLayout.addView(AdView);
+                layout.addView(linearLayout);
+                
+                AdView.loadAd();
+
+                AdView.setAdListener(new AdListener() {
+                    @Override
+                    public void onError(Ad ad, AdError adError) {
+                        // Ad error callback
+                        Log.e("FAN", "Banner ad failed to load: " + adError.getErrorMessage());
+                    }
+
+                    @Override
+                    public void onAdLoaded(Ad ad) {
+                        // Ad loaded callback
+                        Log.d("FAN","Banner is Loaded !");
+                    }
+
+                    @Override
+                    public void onAdClicked(Ad ad) {
+                        // Ad clicked callback
+                    }
+
+                    @Override
+                    public void onLoggingImpression(Ad ad) {
+                        Log.d("FAN","Banner Impression logged !");
+                    }
+                });
+
+            }
+        });
+        
+        Log.d("FAN","Load Banner!");
+    }
+
+    public void showBanner(){
+        appActivity.runOnUiThread(new Runnable()
+		{
+			@Override public void run()
+			{
+				if (AdView.getVisibility() == View.VISIBLE) return;
+                AdView.loadAd();
+				AdView.setVisibility(View.VISIBLE);
+				Log.d("FAN", " Show Banner");
+			}
+		});
+    }
+
+    public void hideBanner(){
+        appActivity.runOnUiThread(new Runnable()
+		{
+			@Override public void run()
+			{
+			    if (AdView.getVisibility() == View.INVISIBLE) return;
+				AdView.setVisibility(View.INVISIBLE);
+				Log.d("FAN", " Hide Banner");
+			}
+		});
+    }
+
 
     static public Godot.SingletonBase initialize(final Activity p_activity) {
         return new GodotFAN(p_activity);
@@ -187,10 +284,13 @@ public class GodotFAN extends Godot.SingletonBase {
             "FacebookAdsInit",
             "showInterstitial",
             "showRewardedVideo",
-            "loadRewardedVideo"
+            "loadRewardedVideo",
+            "loadBanner",
+            "showBanner",
+            "hideBanner"
         });
-        this.appActivity = p_activity;
-        this.appContext = p_activity.getApplicationContext();
+        appActivity = p_activity;
+        appContext = p_activity.getApplicationContext();
         // you might want to try initializing your singleton here, but android
         // threads are weird and this runs in another thread, so to interact with Godot you usually have to do
         

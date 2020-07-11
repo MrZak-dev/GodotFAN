@@ -20,7 +20,7 @@ or From Project Setting >> Compression > Android
 var facebookAds
 func _ready()-> void:
 	facebookAds = Engine.get_singleton("GodotFAN")
-	facebookAds.FacebookAdsInit(get_instance_id(),"YOUR_INTERSTITIAL_PLACEMENT_id","YOUR_REWARDED_VIDEO_PLACEMENT_id")
+	facebookAds.FacebookAdsInit(get_instance_id(),"YOUR_INTERSTITIAL_PLACEMENT_id","YOUR_REWARDED_VIDEO_PLACEMENT_id" , "YOUR_REWARDED_VIDEO_PLACEMENT_id")
 ```
 
 ### Calling the interstitial and rewarded video ads
@@ -33,6 +33,11 @@ facebookAds.loadRewardedVideo() # Loads a rewardedVideo ad
 
 facebookAds.showRewardedVideo() #Calls a rewarded video ad (remmember to call loadRewardedVideo() before showing a rewarded video)
 
+facebookAds.loadBanner(isTop : bool) #Loads a banner AdView , it takes a bool parameter , true for banner in the TOP , false for a banner in the BOTTOM
+
+facebook.showBanner() #show a banner ad if it is hidden , the banner ad is by visible by default
+
+facebook.hideBanner() #hide a banner ad  , the banner ad is by visible by default 
 
 ```
 
