@@ -21,7 +21,7 @@ or From Project Setting >> Compression > Android
 var facebookAds
 func _ready()-> void:
 	facebookAds = Engine.get_singleton("GodotFAN")
-	facebookAds.FacebookAdsInit(get_instance_id(),"YOUR_INTERSTITIAL_PLACEMENT_id","YOUR_REWARDED_VIDEO_PLACEMENT_id" , "YOUR_REWARDED_VIDEO_PLACEMENT_id")
+	facebookAds.FacebookAdsInit(get_instance_id(),"YOUR_INTERSTITIAL_PLACEMENT_id","YOUR_REWARDED_VIDEO_PLACEMENT_id" , "YOUR_BANNER_PLACEMENT_id")
 ```
 
 ### Calling the interstitial and rewarded video ads
