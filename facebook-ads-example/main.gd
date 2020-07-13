@@ -19,7 +19,7 @@ func _on_Button2_pressed():
 
 func _on_Button3_pressed():
 	if not banner : 
-		FacebookAds.showfacebookBanner()
+		FacebookAds.showFacebookBanner()
 		banner = true
 		$VBoxContainer/CenterContainer3/Button.text = "Hide Banner"
 	else:

@@ -2,7 +2,7 @@
 
 ## Using the plugin
 
-`clone` the repo to your `your_godot_project/android` folder or download and rename The folder to GodotFAN , after installing [Android Build Template](https://docs.godotengine.org/en/stable/getting_started/workflow/export/android_custom_build.html)
+`clone` or download the repo to your and place GodotFAN folder to  `your_godot_project/android` folder   , after installing [Android Build Template](https://docs.godotengine.org/en/stable/getting_started/workflow/export/android_custom_build.html)
 
 *the new Godot plugin system doesn't require compiling the source code*
 
@@ -36,9 +36,9 @@ facebookAds.showRewardedVideo() #Calls a rewarded video ad (remmember to call lo
 
 facebookAds.loadBanner(isTop : bool) #Loads a banner AdView , it takes a bool parameter , true for banner in the TOP , false for a banner in the BOTTOM
 
-facebook.showBanner() #show a banner ad if it is hidden , the banner ad is by visible by default
+facebookAds.showBanner() #show a banner ad if it is hidden , the banner ad is by visible by default
 
-facebook.hideBanner() #hide a banner ad  , the banner ad is by visible by default 
+facebookAds.hideBanner() #hide a banner ad  , the banner ad is by visible by default 
 
 ```
 

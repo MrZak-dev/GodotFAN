@@ -68,9 +68,11 @@ func loadFacebookBanner():
 	var isTop = false
 	Facebook.loadBanner(isTop)
 
-func showfacebookBanner():
-	Facebook.showBanner()
+func showFacebookBanner():
+	if Facebook != null:
+		Facebook.showBanner()
 
 func hideFacebookBanner():
-	Facebook.hideBanner()
+	if Facebook != null:
+		Facebook.hideBanner()
 
