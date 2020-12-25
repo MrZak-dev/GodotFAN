@@ -11,9 +11,9 @@ onready var Facebook = null
 replace with your ids
 """
 var facebookIds = {
-	"facebookInterstitial" : "738888353645163_738888946978437",
-	"facebookRewarded" : "738888353645163_738892963644702",
-	"facebookBanner" : "738888353645163_757952225072109"
+	"facebookInterstitial" : "interstitial_placement_id",
+	"facebookRewarded" : "rewarded_placement_id",
+	"facebookBanner" : "banner_placement_id"
 }
 
 var is_facebook_interstitial_ready : bool = false
